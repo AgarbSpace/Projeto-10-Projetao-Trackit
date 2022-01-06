@@ -12,6 +12,7 @@ body{
     font-family: 'Lexend Deca';
     font-style: normal;
     width: 375px;
+    height: 667px;
 }
 
 `

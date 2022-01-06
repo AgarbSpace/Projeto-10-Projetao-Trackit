@@ -16,6 +16,7 @@ const Container = styled.section `
         text-align: left;
         color: #666666;
 
+        margin-top: 28px;
     }
 `
 

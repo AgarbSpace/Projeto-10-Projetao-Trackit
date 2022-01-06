@@ -25,8 +25,12 @@ const AdicionarHabitos = styled.section `
         line-height: 34px;
         letter-spacing: 0em;
         text-align: center;
+        color: #FFFFFF;
 
         border: none;
+        border-radius: 5px;
+        
+        background-color: #52B6FF;
         border-radius: 5px;
     }
 
