@@ -11,9 +11,11 @@ import BotaoCancelar from "./Styleds/BotaoCancelar";
 import BotaoSalvar from "./Styleds/BotaoSalvar";
 import ContainerMiniBotoes from "./Styleds/ContainerMiniBotoes";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function TelaDeHabitos(){
     const [adiciona, setAdiciona] = useState(false);
+    const navegacao = useNavigate()
 
     return(
         <>
@@ -24,32 +26,32 @@ export default function TelaDeHabitos(){
                         <span>Meus Hábitos</span>
                         <button onClick = {() => setAdiciona(true)}>+</button>
                     </AdicionarHabitos>
-                    <AdicionarHabito setAdiciona = {setAdiciona()} />
+                    <AdicionarHabito setAdiciona = {setAdiciona} adiciona = {adiciona}/>
                     <span>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</span>
                 </Container>
                 <Footer>
-                    <span>Hábitos</span>
-                    <button>Hoje</button>
-                    <span>Histórico</span>
+                    <span onClick={() => navegacao('/habitos')}>Hábitos</span>
+                    <button onClick={() => navegacao('/hoje')}>Hoje</button>
+                    <span onClick={() => navegacao('/historico')}>Histórico</span>
                 </Footer>
             </Section>
         </>
     )
 }
 
-function AdicionarHabito({setAdiciona}){
+function AdicionarHabito({setAdiciona, adiciona}){
     const dias = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
-
-    return(
-        <ContainerAdicionarHabito>
-            <Input type = "text" placeholder="nome do hábito" />
-            <ContainerMiniBotoes>
-                {dias.map(dia => <MiniBotoes>{dia}</MiniBotoes>)}
-            </ContainerMiniBotoes>
-            <ContainerBotoes>
-                <BotaoCancelar onClick={() => setAdiciona(false)}>Cancelar</BotaoCancelar>
-                <BotaoSalvar>Salvar</BotaoSalvar>
-            </ContainerBotoes>
-        </ContainerAdicionarHabito>
-    )
+    let i = 0;
+        return(
+            <ContainerAdicionarHabito adiciona = {adiciona}>
+                <Input type = "text" placeholder="nome do hábito" />
+                <ContainerMiniBotoes>
+                    {dias.map(dia => <MiniBotoes key = {i++}>{dia}</MiniBotoes>)}
+                </ContainerMiniBotoes>
+                <ContainerBotoes>
+                    <BotaoCancelar onClick={() => setAdiciona(false)}>Cancelar</BotaoCancelar>
+                    <BotaoSalvar>Salvar</BotaoSalvar>
+                </ContainerBotoes>
+            </ContainerAdicionarHabito>
+        )
 }

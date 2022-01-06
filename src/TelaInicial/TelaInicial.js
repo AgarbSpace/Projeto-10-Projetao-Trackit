@@ -2,35 +2,46 @@ import TelasIniciais from "../Estilo Tela Inicial e Cadastro/style"
 import logo from "../../src/logo/logoTrackIt.png"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-//import axios from "axios"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import axios from "axios";
+import { useAutenticador } from "../provedor/autenticador";
 
 
 export default function TelaInicial(){
-    const [email, setEmail] = useState("")
-    const [senha, setSenha] = useState("")
+    const [formLogin, setFormLogin] = useState({
+        email: "", 
+        password: ""
+    })
     const navegacao = useNavigate()
-
-    function logar(){
-        //const promessa = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", 
-        //{
-          //  email: email,
-          //  password: senha
-       // })
-
-       // promessa.then(resposta => {
+    const {usuario, setUsuario} = useAutenticador();
+    
+    function logar(e){
+        e.preventDefault()
+        
+        const promessa = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",{
+            ...formLogin
+        } )
+        
+        promessa.then(resposta => {
+            setUsuario(resposta.data)
             navegacao('/habitos')
-        //} )
+        } )
 
-        //promessa.then(erro => console.log(erro.response))
+        promessa.catch(erro => console.log(erro.response))
+    }
+
+    function inputControlado(e){
+        setFormLogin({...formLogin, [e.target.name]: e.target.value})
     }
 
     return(
         <TelasIniciais>
             <img src= {logo} alt="logo"/>
-            <input type= "email" placeholder="email" value = {email} onChange = {e => setEmail(e.target.value)}/>
-            <input type= "password" placeholder="senha" value = {senha} onChange = {e => setSenha(e.target.value)}/>
-            <button onClick = {logar}>Entrar</button>
+            <form onSubmit={logar}>
+                <input type= "email" placeholder="email" value = {formLogin.email} name = "email" onChange = {inputControlado}/>
+                <input type= "password" placeholder="senha" value = {formLogin.password} name = "password" onChange = {inputControlado}/>
+                <button type="submit" >Entrar</button>
+            </form>
             <Link to = "/cadastro">Não tem uma conta? Cadastre-se!</Link>
         </TelasIniciais>
     )

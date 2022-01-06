@@ -6,6 +6,10 @@ const TelasIniciais = styled.div `
     align-items: center;
     justify-content: center;
 
+    form{
+        width:303px;
+    }
+    
     img{
         width: 180px;
         height: 178.38px;

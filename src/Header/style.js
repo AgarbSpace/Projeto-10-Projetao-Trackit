@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Header = styled.header`
-    width: 100%;
+    width: 375px;
     height: 70px;
 
     display: flex;
@@ -12,6 +12,10 @@ const Header = styled.header`
     padding-right: 10px;
 
     background-color: #126BA5;
+
+    position: fixed;
+    left:0;
+    top:0;
 
     span{
         font-family: 'Playball';

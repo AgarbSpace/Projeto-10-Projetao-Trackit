@@ -6,6 +6,8 @@ const Section = styled.section `
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    padding-top: 70px;
 `
 
 export default Section;

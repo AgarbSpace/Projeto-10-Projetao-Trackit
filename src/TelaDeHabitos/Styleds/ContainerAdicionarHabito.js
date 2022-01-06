@@ -7,11 +7,12 @@ const ContainerAdicionarHabito = styled.div `
     padding-left: 18px;
     padding-right: 18px;
 
-    display: flex;
     flex-direction: column;
     align-items: center;
 
     margin-top: 20px;
+
+    display: ${props => props.adiciona === false ? "none" : "flex"};
 `
 
 export default ContainerAdicionarHabito;

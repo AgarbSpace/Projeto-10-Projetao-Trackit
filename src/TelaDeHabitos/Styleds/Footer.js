@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Footer = styled.footer `
-    width: 100%;
+    width: 375px;
     height: 70px;
 
     display: flex;
@@ -9,8 +9,12 @@ const Footer = styled.footer `
     justify-content: space-between;  
     position: relative;
 
-    padding-left: 36px;
-    padding-right: 36px;
+    padding-left: 20px;
+    padding-right: 30px;
+
+    position: fixed;
+    top: 667px;
+
 
     span{
         font-size: 18px;
@@ -39,7 +43,7 @@ const Footer = styled.footer `
 
         position: absolute;
         bottom: 0px;
-        left: 142px;
+        left: 138px;
     }
 `
 
