@@ -25,6 +25,10 @@ const Footer = styled.footer `
         color: #52B6FF;
     }
 
+    span:hover{
+            text-decoration: underline;
+    }
+
     button{
         width: 91px;
         height: 91px;

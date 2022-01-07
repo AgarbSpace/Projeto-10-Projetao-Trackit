@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TelaInicial from './TelaInicial/TelaInicial';
 import TelaDeCadastro from './TelaDeCadastro/TelaDeCadastro';
 import TelaDeHabitos from './TelaDeHabitos/TelaDeHabitos';
-import {useAutenticador} from './provedor/autenticador';
 
 export default function App(){
 

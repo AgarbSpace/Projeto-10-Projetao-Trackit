@@ -1,9 +1,8 @@
-import logo from "../../src/logo/logoTrackIt.png"
 import { useAutenticador } from "../provedor/autenticador"
 import Header from "./style"
 
 export default function HeaderDasPaginas(){
-    const {usuario, setUsuario} = useAutenticador();
+    const {usuario} = useAutenticador();
     console.log(usuario);
 
     return(

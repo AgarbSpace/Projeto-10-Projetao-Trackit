@@ -13,7 +13,7 @@ export default function TelaInicial(){
         password: ""
     })
     const navegacao = useNavigate()
-    const {usuario, setUsuario} = useAutenticador();
+    const {setUsuario} = useAutenticador();
     
     function logar(e){
         e.preventDefault()
