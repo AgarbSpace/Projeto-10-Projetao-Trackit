@@ -1,14 +1,7 @@
 import styled from "styled-components";
 
-const Container = styled.section `
-    display: flex;
-    flex-direction: column;
+const Span = styled.span`
 
-    padding-top: 39px;
-    padding-left: 18px;
-    padding-right: 18px;
-
-    span{
         font-size: 18px;
         font-weight: 400;
         line-height: 22px;
@@ -18,7 +11,8 @@ const Container = styled.section `
 
         margin-top: 28px;
 
-    }
+        display: ${props => props.temHabito === false ? 'flex' : 'none'}
+
 `
 
-export default Container;
+export default Span;

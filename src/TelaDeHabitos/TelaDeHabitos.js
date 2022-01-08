@@ -10,27 +10,31 @@ import ContainerBotoes from "./Styleds/ContainerBotoes";
 import BotaoCancelar from "./Styleds/BotaoCancelar";
 import BotaoSalvar from "./Styleds/BotaoSalvar";
 import ContainerMiniBotoes from "./Styleds/ContainerMiniBotoes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import selecionado from "./Styleds/selecionado.css"
 import axios from "axios";
 import { useAutenticador } from "../provedor/autenticador";
+import Span from "./Styleds/Span";
+import TituloDoHabito from "./Styleds/TituloDoHabito";
 
 export default function TelaDeHabitos(){
     const [adiciona, setAdiciona] = useState(false);
+    const [temHabito, setTemHabito] = useState(false)
     const navegacao = useNavigate()
 
     return(
         <>
             <Header/>
             <Section>
-                <Container>
+                <Container temHabito = {temHabito}>
                     <AdicionarHabitos>
                         <span>Meus Hábitos</span>
                         <button onClick = {() => setAdiciona(true)}>+</button>
                     </AdicionarHabitos>
                     <AdicionarHabito setAdiciona = {setAdiciona} adiciona = {adiciona}/>
-                    <span>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</span>
+                    <ListarHabitos setTemHabito = {setTemHabito} />
+                    <Span temHabito = {temHabito}>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Span>
                 </Container>
                 <Footer>
                     <span onClick={() => navegacao('/habitos')}>Hábitos</span>
@@ -48,7 +52,7 @@ function AdicionarHabito({setAdiciona, adiciona}){
     const [habito, setHabito] = useState("")
     const {usuario} = useAutenticador()
     let i = 0;
-    console.log(habito);
+    
     
     function pegarDiaSelecionado(e){
 
@@ -80,8 +84,8 @@ function AdicionarHabito({setAdiciona, adiciona}){
         })
 
         promessa.then(resposta => {console.log(resposta)
-            setHabito("")
-            setDiasSelecionados([])
+            setHabito("");
+            setDiasSelecionados([]);
         });
         promessa.catch(erro => console.log(erro.response));
     }
@@ -100,7 +104,59 @@ function AdicionarHabito({setAdiciona, adiciona}){
     )
 }
 
-function ListarHabitos(){
+function ListarHabitos({setTemHabito}){
+
+    const [listaDeHabitos, setListaDeHabitos] = useState([])
+    const dias = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+    const {usuario} = useAutenticador()
+    useEffect(() => {
+        const promessa = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+        {
+            headers: {
+                Authorization: `Bearer ${usuario.token}`
+            }
+        })
+        promessa.then(resposta => {
+            setListaDeHabitos([...resposta.data])
+            setTemHabito(true);
+        }
+        )
+        promessa.catch(erro => console.log(erro.response))
+
+    },[])
+
+
+    if(listaDeHabitos.length === 0){
+        return <></>
+    }
+
+    function excluirHabito(e){
+
+        const promessa = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${e.id}`, 
+        {
+            headers: {
+                Authorization: `Bearer ${usuario.token}`
+            }
+        }
+        )
+
+        promessa.then(resposta => console.log(resposta))
+        promessa.catch(erro => erro.response)
+    }
 
     
+    return(
+        <>
+            {listaDeHabitos.map((habito, index) => <>
+                <TituloDoHabito>
+                    <span>{habito.name}</span>
+                    <ion-icon name="trash-outline" onClick = {() => excluirHabito(habito)}></ion-icon>
+                </TituloDoHabito>
+                <ContainerMiniBotoes>
+                {dias.map((dia, id) => <MiniBotoes accessKey = {id} className={`${listaDeHabitos[index].days.includes(id+1) && "selecionado"}`} onClick={(e) => console.log(e.target)} >{dia}</MiniBotoes>)}
+                </ContainerMiniBotoes>
+            </>)}
+        </>
+    )
 }
+            

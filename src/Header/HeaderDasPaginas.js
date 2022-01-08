@@ -3,7 +3,6 @@ import Header from "./style"
 
 export default function HeaderDasPaginas(){
     const {usuario} = useAutenticador();
-    console.log(usuario);
 
     return(
         <Header>

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TelaInicial from './TelaInicial/TelaInicial';
 import TelaDeCadastro from './TelaDeCadastro/TelaDeCadastro';
 import TelaDeHabitos from './TelaDeHabitos/TelaDeHabitos';
+import TelaHoje from './TelaHoje/TelaHoje';
 
 export default function App(){
 
@@ -13,7 +14,8 @@ export default function App(){
             <Routes>
                 <Route path = "/" element ={<TelaInicial/>} />
                 <Route path = "/cadastro" element = {<TelaDeCadastro />}/>
-                <Route path = "/habitos" element = {<TelaDeHabitos/>}/>
+                <Route path = "/habitos" element = {<TelaDeHabitos />}/>
+                <Route path = "/hoje" element = {<TelaHoje/>}/>
             </Routes>
         </BrowserRouter>
     )

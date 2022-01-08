@@ -3,6 +3,7 @@ import App from "./App";
 import {ProvedorAutenticacao} from "./provedor/autenticador";
 
 
+
 ReactDom.render(
 <ProvedorAutenticacao>
     <App/>
