@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ContainerTelaHoje = styled.div`
+const ContainerTelaHistorico = styled.div `
     padding-top: 98px;
     padding-left: 17px;
 
@@ -11,6 +11,8 @@ const ContainerTelaHoje = styled.div`
         letter-spacing: 0em;
         text-align: left;
         color: #126BA5;
+
+        margin-bottom: 17px;
     }
 
     span{
@@ -19,9 +21,9 @@ const ContainerTelaHoje = styled.div`
         line-height: 22px;
         letter-spacing: 0em;
         text-align: left;
-        color: #8FC549;
-    }
+        color: #666666;
 
+    }
 `
 
-export default ContainerTelaHoje;
+export default ContainerTelaHistorico;

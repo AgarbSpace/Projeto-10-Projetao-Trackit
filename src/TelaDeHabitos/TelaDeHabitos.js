@@ -17,6 +17,7 @@ import axios from "axios";
 import { useAutenticador } from "../provedor/autenticador";
 import Span from "./Styleds/Span";
 import TituloDoHabito from "./Styleds/TituloDoHabito";
+import SectionConteudo from "../Estilo Global/SectionConteudo";
 
 export default function TelaDeHabitos(){
     const [adiciona, setAdiciona] = useState(false);
@@ -24,7 +25,7 @@ export default function TelaDeHabitos(){
     const navegacao = useNavigate()
 
     return(
-        <>
+        <SectionConteudo>
             <Header/>
             <Section>
                 <Container temHabito = {temHabito}>
@@ -42,7 +43,7 @@ export default function TelaDeHabitos(){
                     <span onClick={() => navegacao('/historico')}>Histórico</span>
                 </Footer>
             </Section>
-        </>
+        </SectionConteudo>
     )
 }
 
@@ -51,6 +52,7 @@ function AdicionarHabito({setAdiciona, adiciona}){
     const [diasSelecionados, setDiasSelecionados] = useState([])
     const [habito, setHabito] = useState("")
     const {usuario} = useAutenticador()
+    console.log(diasSelecionados)
     let i = 0;
     
     
@@ -71,7 +73,7 @@ function AdicionarHabito({setAdiciona, adiciona}){
     }
 
     function enviarHabito(){
-        const dias = diasSelecionados.map(dias => dias+1)  
+        const dias = diasSelecionados.map(dias => dias)  
 
         const promessa = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", 
         {
@@ -90,6 +92,11 @@ function AdicionarHabito({setAdiciona, adiciona}){
         promessa.catch(erro => console.log(erro.response));
     }
 
+    function cancelar(){
+        setAdiciona(false) 
+        setDiasSelecionados([])
+    }
+
     return(
         <ContainerAdicionarHabito adiciona = {adiciona}>
             <Input type = "text" name = "name"  placeholder="nome do hábito" value = {habito} onChange={inputControlado}/>
@@ -97,7 +104,7 @@ function AdicionarHabito({setAdiciona, adiciona}){
                 {dias.map((dia, id) => <MiniBotoes key = {i++} accessKey = {id} className={`${diasSelecionados.includes(id) && "selecionado"}`} onClick={(e) => pegarDiaSelecionado(e.target)} >{dia}</MiniBotoes>)}
             </ContainerMiniBotoes>
             <ContainerBotoes>
-                <BotaoCancelar onClick={() => setAdiciona(false)}>Cancelar</BotaoCancelar>
+                <BotaoCancelar onClick={cancelar}>Cancelar</BotaoCancelar>
                 <BotaoSalvar onClick={() => enviarHabito()}>Salvar</BotaoSalvar>
             </ContainerBotoes>
         </ContainerAdicionarHabito>
@@ -109,6 +116,7 @@ function ListarHabitos({setTemHabito}){
     const [listaDeHabitos, setListaDeHabitos] = useState([])
     const dias = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
     const {usuario} = useAutenticador()
+
     useEffect(() => {
         const promessa = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
         {
@@ -153,7 +161,7 @@ function ListarHabitos({setTemHabito}){
                     <ion-icon name="trash-outline" onClick = {() => excluirHabito(habito)}></ion-icon>
                 </TituloDoHabito>
                 <ContainerMiniBotoes>
-                {dias.map((dia, id) => <MiniBotoes accessKey = {id} className={`${listaDeHabitos[index].days.includes(id+1) && "selecionado"}`} onClick={(e) => console.log(e.target)} >{dia}</MiniBotoes>)}
+                {dias.map((dia, id) => <MiniBotoes accessKey = {id} className={`${listaDeHabitos[index].days.includes(id) && "selecionado"}`} onClick={(e) => console.log(e.target)} >{dia}</MiniBotoes>)}
                 </ContainerMiniBotoes>
             </>)}
         </>
