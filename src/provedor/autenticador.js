@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
 
 export const AutenticadorContext = React.createContext({})
 
 export const ProvedorAutenticacao = (props) => {
-    const [usuario, setUsuario] = useState({})
+    
+    const usuarioGuardado = localStorage.getItem("usuarioGuardado")
+    const [usuario, setUsuario] = useState(JSON.parse(usuarioGuardado));
 
     
     return (

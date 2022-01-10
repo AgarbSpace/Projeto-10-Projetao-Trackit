@@ -26,6 +26,15 @@ const TelasIniciais = styled.div `
         border-radius: 5px;
 
         margin-bottom: 5px;
+
+        pointer-events: ${props => props.statusDaTela === "atualizando" ? "none" : "visible"};
+        outline: ${props => props.statusDaTela === "atualizando" ? "none" : "0px"};
+        opacity: ${props => props.statusDaTela === "atualizando" ? "0.7" : "1"};
+    
+        :hover{
+            cursor: ${props => props.statusDaTela === "atualizando" ? "not-allowed" : "default"};
+        }
+    
     }
 
     input::placeholder{
@@ -44,6 +53,10 @@ const TelasIniciais = styled.div `
         width: 303px;
         height: 45px;
 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         font-size: 21px;
         font-weight: 400;
         line-height: 26px;
@@ -55,6 +68,21 @@ const TelasIniciais = styled.div `
         border-radius: 5px;
 
         background-color: #52B6FF;
+
+        opacity: ${props => props.statusDaTela === "atualizando" ? "0.7" : "1"};
+        
+        :hover{
+            cursor: ${props => props.statusDaTela === "atualizando" ? "not-allowed" : "default"};
+        }
+    }
+
+    div{
+        width: 45px;
+        height: 45px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     a{

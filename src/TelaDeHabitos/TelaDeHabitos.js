@@ -18,11 +18,17 @@ import { useAutenticador } from "../provedor/autenticador";
 import Span from "./Styleds/Span";
 import TituloDoHabito from "./Styleds/TituloDoHabito";
 import SectionConteudo from "../Estilo Global/SectionConteudo";
+import ThreeDots from "react-loader-spinner"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default function TelaDeHabitos(){
     const [adiciona, setAdiciona] = useState(false);
     const [temHabito, setTemHabito] = useState(false)
     const navegacao = useNavigate()
+    const {usuario} = useAutenticador()
+
+    localStorage.setItem('usuarioGuardado', JSON.stringify(usuario));
+    
 
     return(
         <SectionConteudo>
@@ -52,8 +58,7 @@ function AdicionarHabito({setAdiciona, adiciona}){
     const [diasSelecionados, setDiasSelecionados] = useState([])
     const [habito, setHabito] = useState("")
     const {usuario} = useAutenticador()
-    console.log(diasSelecionados)
-    let i = 0;
+    const [statusDaTela, setStatusDaTela] = useState("")
     
     
     function pegarDiaSelecionado(e){
@@ -73,6 +78,8 @@ function AdicionarHabito({setAdiciona, adiciona}){
     }
 
     function enviarHabito(){
+        setStatusDaTela("atualizando")
+
         const dias = diasSelecionados.map(dias => dias)  
 
         const promessa = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", 
@@ -88,6 +95,8 @@ function AdicionarHabito({setAdiciona, adiciona}){
         promessa.then(resposta => {console.log(resposta)
             setHabito("");
             setDiasSelecionados([]);
+            setStatusDaTela("")
+            window.location.reload()
         });
         promessa.catch(erro => console.log(erro.response));
     }
@@ -101,11 +110,11 @@ function AdicionarHabito({setAdiciona, adiciona}){
         <ContainerAdicionarHabito adiciona = {adiciona}>
             <Input type = "text" name = "name"  placeholder="nome do hábito" value = {habito} onChange={inputControlado}/>
             <ContainerMiniBotoes>
-                {dias.map((dia, id) => <MiniBotoes key = {i++} accessKey = {id} className={`${diasSelecionados.includes(id) && "selecionado"}`} onClick={(e) => pegarDiaSelecionado(e.target)} >{dia}</MiniBotoes>)}
+                {dias.map((dia, id) => <MiniBotoes key = {id} accessKey = {id} className={`${diasSelecionados.includes(id) && "selecionado"}`} onClick={(e) => pegarDiaSelecionado(e.target)} >{dia}</MiniBotoes>)}
             </ContainerMiniBotoes>
             <ContainerBotoes>
                 <BotaoCancelar onClick={cancelar}>Cancelar</BotaoCancelar>
-                <BotaoSalvar onClick={() => enviarHabito()}>Salvar</BotaoSalvar>
+                <BotaoSalvar statusDaTela = {statusDaTela} onClick={() => enviarHabito()}>{statusDaTela === 'atualizando' ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={35} width={35} /> : "Salvar"}</BotaoSalvar>
             </ContainerBotoes>
         </ContainerAdicionarHabito>
     )
@@ -148,22 +157,22 @@ function ListarHabitos({setTemHabito}){
         }
         )
 
-        promessa.then(resposta => console.log(resposta))
+        promessa.then(resposta => window.location.reload())
         promessa.catch(erro => erro.response)
     }
 
     
     return(
         <>
-            {listaDeHabitos.map((habito, index) => <>
+            {listaDeHabitos.map((habito, index) => <section key = {index}>
                 <TituloDoHabito>
                     <span>{habito.name}</span>
-                    <ion-icon name="trash-outline" onClick = {() => excluirHabito(habito)}></ion-icon>
-                </TituloDoHabito>
+                    <ion-icon key = {index + 5} name="trash-outline" onClick = {() => excluirHabito(habito)}></ion-icon>
+                </TituloDoHabito >
                 <ContainerMiniBotoes>
-                {dias.map((dia, id) => <MiniBotoes accessKey = {id} className={`${listaDeHabitos[index].days.includes(id) && "selecionado"}`} onClick={(e) => console.log(e.target)} >{dia}</MiniBotoes>)}
+                {dias.map((dia, id) => <MiniBotoes key = {id} accessKey = {id} className={`${listaDeHabitos[index].days.includes(id) && "selecionado"}`} onClick={(e) => console.log(e.target)} >{dia}</MiniBotoes>)}
                 </ContainerMiniBotoes>
-            </>)}
+            </section>)}
         </>
     )
 }

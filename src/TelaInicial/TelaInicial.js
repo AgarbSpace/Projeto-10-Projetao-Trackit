@@ -2,6 +2,7 @@ import TelasIniciais from "../Estilo Tela Inicial e Cadastro/style"
 import logo from "../../src/logo/logoTrackIt.png"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import ThreeDots from "react-loader-spinner"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
 import { useAutenticador } from "../provedor/autenticador";
@@ -12,8 +13,9 @@ export default function TelaInicial(){
         email: "", 
         password: ""
     })
+    const [statusDaTela, setStatusDaTela] = useState("")
     const navegacao = useNavigate()
-    const {setUsuario} = useAutenticador();
+    const {usuario, setUsuario} = useAutenticador();
     
     function logar(e){
         e.preventDefault()
@@ -27,20 +29,29 @@ export default function TelaInicial(){
             navegacao('/habitos')
         } )
 
-        promessa.catch(erro => console.log(erro.response))
+        promessa.catch(erro => {alert("Usuário e/ou senha inválidos!")
+            setFormLogin({
+                email: "", 
+                password: ""
+            })
+            setStatusDaTela("")
+        })
     }
 
     function inputControlado(e){
         setFormLogin({...formLogin, [e.target.name]: e.target.value})
     }
 
+
+
+
     return(
-        <TelasIniciais>
+        <TelasIniciais statusDaTela = {statusDaTela}>
             <img src= {logo} alt="logo"/>
             <form onSubmit={logar}>
                 <input type= "email" placeholder="email" value = {formLogin.email} name = "email" onChange = {inputControlado}/>
                 <input type= "password" placeholder="senha" value = {formLogin.password} name = "password" onChange = {inputControlado}/>
-                <button type="submit" >Entrar</button>
+                <button type="submit" onClick={() => setStatusDaTela("atualizando")}>{statusDaTela === 'atualizando' ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={50} width={50} /> : "Entrar"}</button>
             </form>
             <Link to = "/cadastro">Não tem uma conta? Cadastre-se!</Link>
         </TelasIniciais>

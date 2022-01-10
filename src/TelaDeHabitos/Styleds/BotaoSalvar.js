@@ -17,6 +17,21 @@ const BotaoSalvar = styled.button `
     border-radius: 5px;
 
     margin-left: 23px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: ${props => props.statusDaTela === "atualizando" ? "0.7" : "1"};
+        
+    :hover{
+        cursor: ${props => props.statusDaTela === "atualizando" ? "not-allowed" : "default"};
+    }
+
+    div{
+        height: 35px;
+        width: 35px;
+    }
 `
 
 export default BotaoSalvar;

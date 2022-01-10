@@ -76,6 +76,7 @@ export default function TelaHoje(){
             promessa.then((resposta) => {console.log(resposta)
                 habitosConcluidos.splice(habitosConcluidos.indexOf(parseInt(e.accessKey)), 1);
                 setHabitosConcluidos([...habitosConcluidos])
+                window.location.reload(true)
             })
             promessa.catch((erro) => console.log(erro.response))
 
@@ -94,9 +95,9 @@ export default function TelaHoje(){
         promessa.then((resposta) => {
             console.log(resposta);
             setHabitosConcluidos([...habitosConcluidos, parseInt(e.accessKey)])
-            
+            window.location.reload(true)
         });
-        promessa.catch((erro) => console.log(erro));
+        promessa.catch((erro) => console.log(erro.response));
         
     }
 
